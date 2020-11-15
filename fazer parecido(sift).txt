@@ -1,0 +1,14 @@
+/usr/bin/mogrify -format pgm ./kermit000.jpg; ../../bin/sift < ./kermit000.pgm > ./kermit000.key; gzip -f ./kermit000.key; rm ./kermit000.pgm
+/usr/bin/mogrify -format pgm ./kermit001.jpg; ../../bin/sift < ./kermit001.pgm > ./kermit001.key; gzip -f ./kermit001.key; rm ./kermit001.pgm
+/usr/bin/mogrify -format pgm ./kermit002.jpg; ../../bin/sift < ./kermit002.pgm > ./kermit002.key; gzip -f ./kermit002.key; rm ./kermit002.pgm
+/usr/bin/mogrify -format pgm ./kermit003.jpg; ../../bin/sift < ./kermit003.pgm > ./kermit003.key; gzip -f ./kermit003.key; rm ./kermit003.pgm
+/usr/bin/mogrify -format pgm ./kermit004.jpg; ../../bin/sift < ./kermit004.pgm > ./kermit004.key; gzip -f ./kermit004.key; rm ./kermit004.pgm
+/usr/bin/mogrify -format pgm ./kermit005.jpg; ../../bin/sift < ./kermit005.pgm > ./kermit005.key; gzip -f ./kermit005.key; rm ./kermit005.pgm
+/usr/bin/mogrify -format pgm ./kermit006.jpg; ../../bin/sift < ./kermit006.pgm > ./kermit006.key; gzip -f ./kermit006.key; rm ./kermit006.pgm
+/usr/bin/mogrify -format pgm ./kermit007.jpg; ../../bin/sift < ./kermit007.pgm > ./kermit007.key; gzip -f ./kermit007.key; rm ./kermit007.pgm
+/usr/bin/mogrify -format pgm ./kermit008.jpg; ../../bin/sift < ./kermit008.pgm > ./kermit008.key; gzip -f ./kermit008.key; rm ./kermit008.pgm
+/usr/bin/mogrify -format pgm ./kermit009.jpg; ../../bin/sift < ./kermit009.pgm > ./kermit009.key; gzip -f ./kermit009.key; rm ./kermit009.pgm
+/usr/bin/mogrify -format pgm ./kermit010.jpg; ../../bin/sift < ./kermit010.pgm > ./kermit010.key; gzip -f ./kermit010.key; rm ./kermit010.pgm
+
+NEW
+/usr/bin/mogrify -format pgm ./kermit001.jpg; python3 ./sift_exe.py dog ./ kermit001 pgm; gzip -f ./kermit001.key; rm ./kermit001.pgm

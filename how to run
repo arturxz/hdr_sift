@@ -1,0 +1,5 @@
+params:
+1:dogFile(dog or dogForHdr); 2:imagePath (must ends with /) 3:imageName; 4:imageExtension
+
+python3 sift_exe.py dog dataset/ kermit001 jpg
+
