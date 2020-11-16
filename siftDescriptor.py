@@ -75,6 +75,19 @@ def isOut(img, x, y):
     h, w = img.shape[:2]
     return (x <= 0 or x >= w-1 or y <= 0 or y >= h-1)
 
+def formatOut(vec):
+	out = ""
+	out += str(vec[0:20]) + "\n"
+	out += " " + str(vec[20:40]) + "\n"
+	out += " " + str(vec[40:60]) + "\n"
+	out += " " + str(vec[60:80]) + "\n"
+	out += " " + str(vec[80:100]) + "\n"
+	out += " " + str(vec[100:120]) + "\n"
+	out += " " + str(vec[120:128]) + "\n"
+	
+	return out
+	
+
 ##### main #####
 #call ex: python3 siftDescriptor.py ../TestImages/100.LDR.surf.kp.txt ../TestImages/100.jpg
 kpList = []
@@ -159,7 +172,12 @@ for kp in kpList:
     featVectorList.append(featvec)
 
 ind = imgPath.rfind('/') + 1
-fileName = imgPath[ind:-3]
+fileName = imgPath[ind:]
+print(fileName)
+if( fileName.split(".").pop().lower() == "tiff" ):
+    fileName = imgPath[ind:-4]
+else:
+    fileName = imgPath[ind:-3]
 
 with open(fileName+'key', 'w') as f:
     i = 0
@@ -169,14 +187,15 @@ with open(fileName+'key', 'w') as f:
         newDir = float(f"{kpList[i].dir}") - 180
         newDir = float(int(math.radians(newDir)*1000)/1000)
         if i == 0:
-            out = out + str(kpList[i].x) +" "+ str(kpList[i].y) +" "+ str(kpList[i].scale) +" "+ str(newDir) + "\n"
+            out = out + str(kpList[i].y) +" "+ str(kpList[i].x) +" "+ str(kpList[i].scale) +" "+ str(newDir) + "\n"
         else:
-            out = str(kpList[i].x) +" "+ str(kpList[i].y) +" "+ str(kpList[i].scale) +" "+ str(newDir) + "\n"
+            out = str(kpList[i].y) +" "+ str(kpList[i].x) +" "+ str(kpList[i].scale) +" "+ str(newDir) + "\n"
         i+=1
-        out = out +' '+str(vec).replace('\n', ' ')
-        #print (out)
+        out = out + ' ' + formatOut(vec) #.replace('\n', ' ')
+        
         out = out.replace('[', '').replace(']', '').replace(',', '')
-        f.write(out+"\n")
+		
+        f.write(out)
 
 print ("fim")
 

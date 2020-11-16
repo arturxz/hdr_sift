@@ -5,12 +5,12 @@
 #include "opencv2/imgproc.hpp"
 //Incluindo todas as bibliotecas std do c/c++
 #include <bits/stdc++.h>
+#include "dog.hpp"
 
 using namespace cv;
 using namespace std;
 
 const int INF = (int) 1e9;
-
 
 //Criando imagens do tipo Mat
 FILE *in, *out0, *out1, *out2, *out3;
@@ -25,11 +25,6 @@ double gKernel[5][5];
 float mediaGeral = 0; //Media geral dos coefV
 
 int gaussianSize = 11;
-
-struct KeyPoints{
-	int x, y, scale, z;//posicao (x, y) e o octave ou escalada da imagem
-	float response;
-};
 
 vector<KeyPoints> keyPoint;
 
@@ -396,7 +391,7 @@ void saveKeypoints(){
 	}
     sort(aux.begin(), aux.end());
     
-    int quantMaxKP = 500;
+    int quantMaxKP = 15000;
     
     for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
 	 	int y = aux[i].second.first, x = aux[i].second.second;
@@ -550,7 +545,15 @@ void edgeThreshold(){
 int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
-	saida[strlen(saida)-4] = '\0';
+	
+	std::string s = std::string( saida );
+	if( s.substr(s.size() - 4, 4) == "tiff" ) {
+		saida[strlen(saida)-5] = '\0';
+	} else {
+		saida[strlen(saida)-4] = '\0';
+	}
+	
+	//saida[strlen(saida)-4] = '\0';
 	string saida2(saida);
 	
 	string saida1 = saida2;

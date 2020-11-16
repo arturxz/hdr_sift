@@ -5,6 +5,7 @@
 #include "opencv2/imgproc.hpp"
 //Incluindo todas as bibliotecas std do c/c++
 #include <bits/stdc++.h>
+#include "dog.hpp"
 
 using namespace cv;
 using namespace std;
@@ -20,11 +21,6 @@ Mat roi[4];
 bool isHDR = false;
 
 int gaussianSize = 11;
-
-struct KeyPoints{
-	int x, y, scale, z;//posicao (x, y) e o octave ou escalada da imagem
-	float response;
-};
 
 vector<KeyPoints> keyPoint;
 vector<pair<int, int> > ROI;
@@ -237,30 +233,30 @@ void saveKeypoints(){
 	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
 	vector<pair<float, pair<int, int> > > aux;
 	
-    for(int i = 0; i < (int)keyPoint.size(); i++){
+	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int y = keyPoint[i].y, x = keyPoint[i].x;
 		aux.push_back({-keyPoint[i].response, {y, x}});
 	}
-    sort(aux.begin(), aux.end());
-    
-    int quantMaxKP = 500;
-    //int quantMaxKP = 5400;
-    
-    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
-	 	int y = aux[i].second.first, x = aux[i].second.second;
-	 	
-	 	if(y >= roi[1].rows || x >= roi[1].cols) continue;
-	 	if(y >= roi[2].rows || x >= roi[2].cols) continue;
-	 	if(y >= roi[3].rows || x >= roi[3].cols) continue;
-	 	
-	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
-	 	else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({aux[i].first, {y, x}});
-	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
-    }
-    
-    if(aux3.size() > 500) aux3.clear();
-    
-    double T = aux1.size() + aux2.size() + aux3.size();
+	sort(aux.begin(), aux.end());
+	
+	int quantMaxKP 	= 10000;
+	//int quantMaxKP = 5400;
+	
+	for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
+		int y = aux[i].second.first, x = aux[i].second.second;
+		
+		if(y >= roi[1].rows || x >= roi[1].cols) continue;
+		if(y >= roi[2].rows || x >= roi[2].cols) continue;
+		if(y >= roi[3].rows || x >= roi[3].cols) continue;
+		
+		if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
+		else if(roi[2].at<uchar>(y, x) != 0) aux2.push_back({aux[i].first, {y, x}});
+		else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
+	}
+	
+	if(aux3.size() > 500) aux3.clear();
+	
+	double T = aux1.size() + aux2.size() + aux3.size();
 	
 	double minFp = min(aux1.size()/T, min(aux2.size()/T, aux3.size()/T));
 	double maxFp = max(aux1.size()/T, max(aux2.size()/T, aux3.size()/T));
@@ -268,7 +264,7 @@ void saveKeypoints(){
 	
 	//Salvando Distribution Rate
 	//fprintf(out0, "%.4f\n", D);
-    
+	
 	keyPoint.clear();
 	for(int i = 0; i < aux1.size(); i++)
 		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
@@ -295,33 +291,34 @@ void saveKeypoints(){
 		fprintf(out3, "%d %d %.4f\n", aux3[i].second.first, aux3[i].second.second, -aux3[i].first);
 	fclose(out3);
 }
+
 void saveKeypoints2ROIs(){
 	printf("Salvando keypoints 2 ROIs no arquivo...\n");
 	
 	vector<pair<float, pair<int, int> > > aux1, aux2, aux3;
 	vector<pair<float, pair<int, int> > > aux;
 	
-    for(int i = 0; i < (int)keyPoint.size(); i++){
+	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int y = keyPoint[i].y, x = keyPoint[i].x;
 		aux.push_back({-keyPoint[i].response, {y, x}});
 	}
-    sort(aux.begin(), aux.end());
-    
-    int quantMaxKP = 500;
-    
-    for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
-	 	int y = aux[i].second.first, x = aux[i].second.second;
-	 	
-	 	if(y >= roi[1].rows || x >= roi[1].cols) continue;
-	 	if(y >= roi[3].rows || x >= roi[3].cols) continue;
-	 	
-	 	if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
-	 	else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
-    }
-    
-    if(aux3.size() > 500) aux3.clear();
-    
-    double T = aux1.size() + aux3.size();
+	sort(aux.begin(), aux.end());
+	
+	int quantMaxKP = 500;
+	
+	for(int i = 0; i < quantMaxKP && i < aux.size(); i++){
+		int y = aux[i].second.first, x = aux[i].second.second;
+		
+		if(y >= roi[1].rows || x >= roi[1].cols) continue;
+		if(y >= roi[3].rows || x >= roi[3].cols) continue;
+		
+		if(roi[1].at<uchar>(y, x) != 0) aux1.push_back({aux[i].first, {y, x}});
+		else if(roi[3].at<uchar>(y, x) != 0) aux3.push_back({aux[i].first, {y, x}});
+	}
+	
+	if(aux3.size() > 500) aux3.clear();
+	
+	double T = aux1.size() + aux3.size();
 	
 	double minFp = min(aux1.size()/T, aux3.size()/T);
 	double maxFp = max(aux1.size()/T, aux3.size()/T);
@@ -329,7 +326,7 @@ void saveKeypoints2ROIs(){
 	
 	//Salvando Distribution Rate
 	//fprintf(out0, "%.4f\n", D);
-    
+	
 	keyPoint.clear();
 	for(int i = 0; i < aux1.size(); i++)
 		keyPoint.push_back({aux1[i].second.first, aux1[i].second.second});
@@ -348,7 +345,6 @@ void saveKeypoints2ROIs(){
 	fclose(out3);
 }
 
-
 void showKeyPoints(){
 	for(int i = 0; i < (int)keyPoint.size(); i++){
 		int x = keyPoint[i].y;
@@ -365,7 +361,14 @@ void showKeyPoints(){
 int main(int, char** argv ){
 	char saida[255];
 	strcpy(saida, argv[1]);
-	saida[strlen(saida)-4] = '\0';
+	std::string s = std::string( saida );
+	
+	if( s.substr(s.size() - 4, 4) == "tiff" ) {
+		saida[strlen(saida)-5] = '\0';
+	} else {
+		saida[strlen(saida)-4] = '\0';
+	}
+	
 	string saida2(saida);
 	
 	string saida1 = saida2;
@@ -407,7 +410,10 @@ int main(int, char** argv ){
 	
 	//Limiar na imagem de Response
 	threshold(8); // Threshold fixo para teste do pribyl = 8
-		
+
+	// A INTERPOLACAO DEVE SER FEITA AQUI
+
+
 	//Limiar p/ edges response
 	//edgeThreshold(); 
 	
