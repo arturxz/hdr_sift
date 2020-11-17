@@ -408,11 +408,10 @@ int main(int, char** argv ){
 	//Fazendo NonMaximaSupression na imagem DoG
 	nonMaximaSupression();
 	
+	// O CALCULO DE REFINO DOS KEYPOINTS DEVE SER FEITO AQUI
+	
 	//Limiar na imagem de Response
 	threshold(8); // Threshold fixo para teste do pribyl = 8
-
-	// A INTERPOLACAO DEVE SER FEITA AQUI
-
 
 	//Limiar p/ edges response
 	//edgeThreshold(); 
