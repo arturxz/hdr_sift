@@ -1,4 +1,7 @@
-struct KeyPoints{
-	int x, y, scale, z;//posicao (x, y) e o octave ou escalada da imagem
-	float response;
+struct KeyPoints {
+	int x;			// coord x
+	int y;			// coord y
+	int z;			// col dogI
+	int scale;		// lin dogI
+	float response;	// intensidade do keypoint
 };
