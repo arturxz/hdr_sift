@@ -196,6 +196,23 @@ void nonMaximaSupression(){
 	}
 }//Fim função
 
+// Interpolando keypoints para refino da posição em subpixels
+void refineSubpixel(){
+	
+	float img_scale = 1.00 / ( 255 * SIFT_FIXPT_SCALE );	// ESCALA IMAGEM
+	float deriv_scale = img_scale*0.5f;						// DERIVADA PRIMEIRA
+    float second_deriv_scale = img_scale;					// DERIVADA SEGUNDA
+    float cross_deriv_scale = img_scale*0.25f;				// MULTIPLICACAO DERIVADA
+	
+	// executa, no maximo x aproximações de subpixel (padrao 5)
+	for( int i=0; i<SIFT_MAX_INTERP_STEPS; i++ ) {
+		
+		int idx = 0; // CAMADA DO OCTAVE. ZERO PQ É O QUE WELERSON USA.
+		
+		
+	}
+}
+
 //Passando o Limiar na imagem resultante response
 void threshold(float val){
 	//Atualizando threshold
@@ -409,6 +426,7 @@ int main(int, char** argv ){
 	nonMaximaSupression();
 	
 	// O CALCULO DE REFINO DOS KEYPOINTS DEVE SER FEITO AQUI
+	refineSubpixel();
 	
 	//Limiar na imagem de Response
 	threshold(8); // Threshold fixo para teste do pribyl = 8
