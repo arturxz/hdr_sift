@@ -112,7 +112,6 @@ static struct sift_keypoints* sift_translate_standard_into_anatomy(const struct 
     return keys;
 }
 
-
 //static void sift_translate_anatomy_into_standard(const struct sift_keypoints *keys, struct sift_keypoint_std* k, int *n)
 void sift_translate_anatomy_into_standard(const struct sift_keypoints *keys, struct sift_keypoint_std* k, int *n)
 {
@@ -128,10 +127,6 @@ void sift_translate_anatomy_into_standard(const struct sift_keypoints *keys, str
         }
     }
 }
-
-
-
-
 
 /** @brief Extracts oriented keypoints (without description
  *
@@ -182,8 +177,6 @@ struct sift_keypoint_std* sift_compute_features(const float* x, int w, int h, in
 
     return k;
 }
-
-
 
 /** @brief Extracts oriented keypoints (without description
  *
@@ -261,7 +254,6 @@ void sift_fill_descriptors(const float *x, int w, int h, struct sift_keypoint_st
     }
 }
 
-
 void sift_find_ori_and_fill_descriptors(const float *x, int w, int h, struct sift_keypoint_std *k, int n)
 {
     struct sift_keypoints* keys = sift_translate_standard_into_anatomy(k, n);
@@ -295,15 +287,12 @@ void fprintf_keypoint_std(FILE* f, const struct sift_keypoint_std* k, int n)
     }
 }
 
-
 void sift_write_to_file(const char *filename, const struct sift_keypoint_std *k, int n)
 {
     FILE* file = fopen(filename,"w");
     fprintf_keypoint_std(file, k, n);
     fclose(file);
 }
-
-
 
 struct sift_keypoint_std * sift_read_from_file(const char *filename, int *n)
 {
@@ -333,7 +322,6 @@ struct sift_keypoint_std * sift_read_from_file(const char *filename, int *n)
     sift_free_keypoints(keys);
     return k;
 }
-
 
 struct sift_keypoint_std *sift_read_keyslocation_from_file(char *filename, int *n)
 {
